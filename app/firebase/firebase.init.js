@@ -3,15 +3,18 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
 
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCBpxLNKTU5x-9MmZSRf3DXTgg5n0sXwhA",
-  authDomain: "agile-project-4600e.firebaseapp.com",
-  projectId: "agile-project-4600e",
-  storageBucket: "agile-project-4600e.firebasestorage.app",
-  messagingSenderId: "604362064635",
-  appId: "1:604362064635:web:12cff82c8bb41a5943265e",
-  measurementId: "G-RS266LV1C7"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
+
+export default firebaseConfig;
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
