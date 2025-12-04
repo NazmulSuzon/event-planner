@@ -1,0 +1,56 @@
+[
+    {
+    "id":"1",
+    "img":"https://homeworlddesign.com/wp-content/uploads/2017/12/Modern-Duplex-Apartment-11.jpg",
+    "title":"Duplex Layout",
+    "details":"A duplex house plan has two living units attached to each other, either next to each other as townhouses, condominiums or above each other like apartments."
+    },
+    {
+    "id":"2",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img2.jpg",
+    "title":"Financial Reporting",
+    "details":"Financial reporting is the process of producing statements that disclose an organization's financial status to management, investors and the government."
+    },
+    {
+    "id":"3",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img9.jpg",
+    "title":"Property Management",
+    "details":"Property management is the operation, control, maintenance, and oversight of real estate and physical property. This can include residential, commercial, and land real estate."
+    },
+    {
+    "id":"4",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img7.jpg",
+    "title":"High-Level Security",
+    "details":"System-level security refers to the architecture, policy and processes that ensure data and system security on individual computer systems."
+    },
+    {
+    "id":"5",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img4.jpg",
+    "title":"Large Playground",
+    "details":"There's a large body of research that shows a beneficial connection between happiness and access to green spaces. A study of more than 10,000 people found that those who live near parks."
+    },
+    {
+    "id":"6",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img3.jpg",
+    "title":"Luxury Apartments",
+    "details":"A luxury apartment is a type of apartment that is intended to provide its occupant with higher-than-average levels of comfort, quality and convenience."
+    },
+    {
+    "id":"7",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img8.jpg",
+    "title":"Good Neighborhood",
+    "details":"Great neighborhood is one that features interesting architecture and design, and is comfortable and appealing. It should have intriguing storefronts, clean streets with good lighting, and flowers and trees that look inviting."
+    },
+    {
+    "id":"8",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img9.jpg",
+    "title":"Best Quality",
+    "details":"A penthouse apartment is a luxury apartment that is placed on the top most floor of the building. These apartments have beautiful views of the skyline and the landscape."
+    },
+    {
+    "id":"9",
+    "img":"https://templates.hibootstrap.com/hemo/default/assets/img/services/services-img5.jpg",
+    "title":"Good Natural",
+    "details":"A penthouse apartment is a luxury apartment that is placed on the top most floor of the building. These apartments have beautiful views of the skyline and the landscape."
+    }
+]
