@@ -1,40 +1,63 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import EventCard from "./EventCard";
-import events from "../../../FakeData/Evemt.json"; // adjust path based on location
 
 const Events = () => {
-    const [visible, setVisible] = useState(3);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const loadMore = () => {
-    setVisible(events.length); // show all cards on click
-  };
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch("/api/events");
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch events");
+        }
+
+        const data = await res.json();
+        setEvents(data.events); // ✅ VERY IMPORTANT
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading events...</p>;
+  }
 
   return (
-    <div className="p-4 container mx-auto">
-        <h1 className="text-center text-2xl">Upcoming Events...</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3">
-        {events.slice(0, visible).map((event) => (
-          <EventCard
-            key={event.id}
-            img={event.img}
-            title={event.title}
-            details={event.details}
-          />
-        ))}
-      </div>
+    <div>
+      <h1 className="text-center my-12 text-3xl text-green-700">
+        Explore Events
+      </h1>
 
-      {/* Load More Button */}
-      {visible < events.length && (
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={loadMore}
-            className="btn btn-primary"
-          >
-            Load More
-          </button>
-        </div>
-      )}
+      <div className="flex flex-wrap justify-center gap-6">
+        {events.length === 0 ? (
+          <p>No events found</p>
+        ) : (
+          events.map((event) => (
+            <EventCard
+              key={event._id}
+              _id={event._id}
+              title={event.title}
+              description={event.description}
+              venue={event.venue}
+              date={event.date}
+              time={event.time}
+              totalTickets={event.totalTickets}
+              ticketPrice={event.ticketPrice}
+              imageUrl={event.imageUrl}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };
