@@ -1,21 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-async function getEvent(id) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/events/${id}`,
-    { cache: "no-store" }
-  );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch event");
-  }
-
-  const data = await res.json();
-  return data.event;
-}
+import connectDB from "@/lib/mongodb";
+import Event from "@/models/Event";
+import mongoose from "mongoose";
+import { notFound } from "next/navigation";
 
 export default async function EventDetailsPage({ params }) {
-  const event = await getEvent(params.id);
-    console.log("event = ",event);
+  // ✅ UNWRAP params (THIS IS THE FIX)
+  const { id } = await params;
+
+  await connectDB();
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    notFound();
+  }
+
+  const event = await Event.findById(id).lean();
+
+  if (!event) {
+    notFound();
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <div className="w-full h-[400px] overflow-hidden rounded-lg">
