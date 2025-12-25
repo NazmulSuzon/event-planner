@@ -20,6 +20,13 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
+
+      metadata: {
+        eventId: eventId,
+        quantity: "1",
+        userId: mongoUser._id.toString(),
+      },
+
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?eventId=${eventId}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
     });

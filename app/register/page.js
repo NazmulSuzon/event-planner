@@ -22,9 +22,21 @@ export default function RegisterPage() {
   const handleGoogleSignIn = () => {
     console.log("Google sign in clicked");
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         console.log(result);
         setUser(result.user);
+
+        await fetch("/api/auth/sync", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firebaseUid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: firebaseUser.displayName,
+            photo: firebaseUser.photoURL,
+            provider: "google",
+          }),
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -45,17 +57,17 @@ export default function RegisterPage() {
   const handleRegister = (e) => {
     e.preventDefault();
     const userName = e.target.userName.value;
-    const photo =  e.target.photo.value;
+    const photo = e.target.photo.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const terms = e.target.terms.checked;
-    console.log(userName, email, password, terms,photo);
+    console.log(userName, email, password, terms, photo);
 
     setSuccess(false);
     setErrorMessage("");
 
-    if(!terms){
-      setErrorMessage('Please accept Our Terms and Conditions');
+    if (!terms) {
+      setErrorMessage("Please accept Our Terms and Conditions");
       return;
     }
 
@@ -63,25 +75,36 @@ export default function RegisterPage() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
-        
+
         // email verify
-        sendEmailVerification(auth.currentUser)
-        .then(() =>{
+        sendEmailVerification(auth.currentUser).then(() => {
           setSuccess(true);
-          alert("We sent you a verification email. Please check your email.")
-        })
+          alert("We sent you a verification email. Please check your email.");
+        });
 
         // update user profile
         const profile = {
           displayName: userName,
-          photoURl: photo
-        }
+          photoURl: photo,
+        };
 
         updateProfile(auth.currentUser, profile)
-        .then(() =>{
-          console.log('User Profile Updated');
-        })
-        .catch(() => console.log(error))
+          .then(async () => {
+            console.log("User Profile Updated");
+
+            await fetch("/api/auth/sync", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                firebaseUid: auth.currentUser.uid,
+                email: auth.currentUser.email,
+                name: userName,
+                photo: photo,
+                provider: "password",
+              }),
+            });
+          })
+          .catch(() => console.log(error));
       })
 
       .catch((error) => {
