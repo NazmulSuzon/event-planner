@@ -7,19 +7,26 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { title, description, venue, date, time, totalTickets, ticketPrice, imageUrl } = body;
+
+    console.log("RAW BODY:", body);
+    console.log("eventType value:", body.eventType);
+
+    const { title, description, eventType, venue, date, time, totalTickets, ticketPrice, imageUrl } = body;
 
     // Validation
-    if (!title || !description || !venue || !date || !time || !totalTickets || !ticketPrice) {
+    if (!title || !description || !eventType || !venue || !date || !time || !totalTickets || !ticketPrice) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
       );
     }
 
+    console.log("SCHEMA PATHS:", Object.keys(Event.schema.paths));
+
     const event = new Event({
       title,
       description,
+      eventType,
       venue,
       date,
       time,

@@ -5,10 +5,26 @@ import ImagePicker from "./ImagePicker";
 
 const CreateEvent = () => {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const EVENT_TYPES = [
+    { value: "music", label: "Music" },
+    { value: "sports", label: "Sports" },
+    { value: "tech", label: "Tech" },
+    { value: "healthFitness", label: "Health & Fitness" },
+    { value: "conference", label: "Conference" },
+    { value: "party", label: "Party" },
+    { value: "meetup", label: "Meetup" },
+    { value: "seminar", label: "Seminar" },
+    { value: "festival", label: "Festival" },
+    { value: "networking", label: "Networking" },
+  ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,6 +33,8 @@ const CreateEvent = () => {
 
     const formData = new FormData(e.currentTarget);
     let imageUrl = "";
+
+    console.log("EVENT TYPE =", formData.get("eventType"));
 
     if (selectedImage) {
       imageUrl = await new Promise<string>((resolve, reject) => {
@@ -30,6 +48,7 @@ const CreateEvent = () => {
     const eventData = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
+      eventType: formData.get("eventType") as string,
       venue: formData.get("venue") as string,
       date: selectedDate,
       time: formData.get("time") as string,
@@ -105,6 +124,29 @@ const CreateEvent = () => {
             placeholder="Enter event description"
             className="textarea textarea-bordered bg-white border-2 border-black w-full"
           />
+        </div>
+
+        {/* Event Type */}
+        <div>
+          <label className="label text-black font-bold">
+            <span className="label-text">Event Type</span>
+          </label>
+          <select
+            name="eventType"
+            required
+            defaultValue=""
+            className="select select-bordered bg-white border-2 border-black w-full"
+          >
+            <option value="" disabled>
+              Select Event Type
+            </option>
+
+            {EVENT_TYPES.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Venue */}

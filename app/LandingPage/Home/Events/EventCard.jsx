@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Link from "next/link";
-import React from "react";
 
 const EventCard = ({
   _id,
@@ -12,6 +12,7 @@ const EventCard = ({
   totalTickets,
   ticketPrice,
   imageUrl,
+  eventType
 }) => {
   const handleBooking = async () => {
     const res = await fetch("/api/checkout", {
@@ -42,6 +43,7 @@ const EventCard = ({
           <p>
             {date} at {time}
           </p>
+          <p>{eventType}</p>
           <p>{totalTickets} tickets available</p>
           <p>Price: ${ticketPrice}</p>
         </div>

@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface IEvent extends Document {
   title: string;
   description: string;
+  eventType: string;
   venue: string;
   date: string;
   time: string;
@@ -22,6 +23,22 @@ const EventSchema: Schema = new Schema(
     description: {
       type: String,
       required: [true, "Description is required"],
+    },
+    eventType: {
+      type: String,
+      required: [true, "Event type is required"],
+      enum: [
+        "music",
+        "sports",
+        "tech",
+        "healthFitness",
+        "conference",
+        "party",
+        "meetup",
+        "seminar",
+        "festival",
+        "networking",
+      ],
     },
     venue: {
       type: String,
@@ -55,4 +72,9 @@ const EventSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.models.Event || mongoose.model<IEvent>("Event", EventSchema);
+const Event =
+  mongoose.models.Event ??
+  mongoose.model<IEvent>("Event", EventSchema);
+
+
+export default Event;

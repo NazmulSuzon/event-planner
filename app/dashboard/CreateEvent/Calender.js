@@ -13,8 +13,8 @@ const Calender = ({ onDateChange }) => {
     const init = async () => {
         if (typeof window === "undefined" || !myDatepicker.current) return;
       
-        const module = await import("pikaday");
-        const Pikaday = module.default || module;
+        const myModule = await import("pikaday");
+        const Pikaday = myModule.default || myModule;
       
         if (!isMounted || !myDatepicker.current) return;
       
@@ -45,7 +45,7 @@ const Calender = ({ onDateChange }) => {
 
   return (
     <>
-      <label className="label text-black font-bold">Date</label>
+      <label className="label text-black font-bold">Date</label><br />
       <input
         type="text"
         placeholder="Pick a date"

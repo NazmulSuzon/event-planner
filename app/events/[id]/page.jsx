@@ -4,9 +4,9 @@ import connectDB from "@/lib/mongodb";
 import Event from "@/models/Event";
 import mongoose from "mongoose";
 import { notFound } from "next/navigation";
+import StripeCheckoutButton from "../../components/StripeCheckoutButton";
 
 export default async function EventDetailsPage({ params }) {
-  // ✅ UNWRAP params (THIS IS THE FIX)
   const { id } = await params;
 
   await connectDB();
@@ -46,16 +46,17 @@ export default async function EventDetailsPage({ params }) {
         </div>
 
         <div className="border rounded-lg p-6 h-fit sticky top-20">
-          <p className="text-2xl font-bold mb-2">
-            €{event.ticketPrice}
-          </p>
+          <p className="text-2xl font-bold mb-2">€{event.ticketPrice}</p>
           <p className="text-sm text-gray-600 mb-4">
             {event.totalTickets} tickets left
           </p>
 
-          <button className="btn btn-primary w-full">
-            Get tickets
-          </button>
+          {/* CLIENT COMPONENT INSIDE SERVER COMPONENT */}
+          <StripeCheckoutButton
+            eventId={event._id.toString()}
+            title={event.title}
+            price={event.ticketPrice}
+          />
         </div>
       </div>
     </div>

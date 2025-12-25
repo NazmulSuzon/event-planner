@@ -48,6 +48,7 @@ const Events = () => {
               _id={event._id}
               title={event.title}
               description={event.description}
+              eventType={event.eventType}
               venue={event.venue}
               date={event.date}
               time={event.time}
