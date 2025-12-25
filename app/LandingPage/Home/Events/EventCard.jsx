@@ -1,6 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { getAuth } from "firebase/auth";
+import { get } from "http";
 import Link from "next/link";
+
 
 const EventCard = ({
   _id,
@@ -14,11 +17,22 @@ const EventCard = ({
   imageUrl,
   eventType
 }) => {
+  const auth = getAuth()
+
   const handleBooking = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please log in to book tickets.");
+      return;
+    }
+
+    const token = await user.getIdToken();
+    
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         eventId: _id,
