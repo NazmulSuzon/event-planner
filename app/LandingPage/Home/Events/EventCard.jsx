@@ -2,6 +2,7 @@
 "use client";
 import { getAuth } from "firebase/auth";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const EventCard = ({
   _id,
@@ -17,6 +18,31 @@ const EventCard = ({
   eventType,
 }) => {
   const auth = getAuth();
+
+  const [alreadyBooked, setAlreadyBooked] = useState(false);
+
+  useEffect(() => {
+    const checkBooking = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const token = await user.getIdToken();
+
+      const res = await fetch("/api/bookings/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ eventId: _id }),
+      });
+
+      const data = await res.json();
+      setAlreadyBooked(data.booked);
+    };
+
+    checkBooking();
+  }, [_id]);
 
   const handleBooking = async () => {
     const user = auth.currentUser;
@@ -72,11 +98,13 @@ const EventCard = ({
           )}
 
           <button
-            disabled={availableTickets === 0}
+            disabled={availableTickets === 0 || alreadyBooked}
             onClick={handleBooking}
-            className="btn btn-sm btn-primary"
+            className={`btn btn-sm ${
+              alreadyBooked ? "btn-disabled" : "btn-primary"
+            }`}
           >
-            Book Now
+            {alreadyBooked ? "Already Booked" : "Book Now"}
           </button>
         </div>
       </div>
