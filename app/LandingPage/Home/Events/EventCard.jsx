@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { getAuth } from "firebase/auth";
-import { get } from "http";
 import Link from "next/link";
-
 
 const EventCard = ({
   _id,
@@ -13,11 +11,12 @@ const EventCard = ({
   date,
   time,
   totalTickets,
+  ticketsSold,
   ticketPrice,
   imageUrl,
-  eventType
+  eventType,
 }) => {
-  const auth = getAuth()
+  const auth = getAuth();
 
   const handleBooking = async () => {
     const user = auth.currentUser;
@@ -27,7 +26,7 @@ const EventCard = ({
     }
 
     const token = await user.getIdToken();
-    
+
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: {
@@ -44,6 +43,8 @@ const EventCard = ({
     window.location.href = data.url;
   };
 
+  const availableTickets = totalTickets - (ticketsSold || 0);
+
   return (
     <div className="card bg-base-100 text-white mt-8 w-80 shadow-sm border-2 border-black hover:shadow-lg hover:scale-105 transition-transform duration-300">
       <figure className="h-40 overflow-hidden">
@@ -58,13 +59,24 @@ const EventCard = ({
             {date} at {time}
           </p>
           <p>{eventType}</p>
-          <p>{totalTickets} tickets available</p>
+          <p>{availableTickets} tickets available</p>
           <p>Price: ${ticketPrice}</p>
         </div>
         <div className="card-actions flex items-center justify-end">
-          <Link href={`/events/${_id}`} className="badge badge-outline text-xs"> View Details </Link>
-          <button onClick={handleBooking} className="btn btn-sm btn-primary">
-            Book Now!
+          <Link href={`/events/${_id}`} className="badge badge-outline text-xs">
+            {" "}
+            View Details{" "}
+          </Link>
+          {availableTickets === 0 && (
+            <span className="text-red-500 font-bold">Sold Out</span>
+          )}
+
+          <button
+            disabled={availableTickets === 0}
+            onClick={handleBooking}
+            className="btn btn-sm btn-primary"
+          >
+            Book Now
           </button>
         </div>
       </div>

@@ -8,6 +8,7 @@ export interface IEvent extends Document {
   date: string;
   time: string;
   totalTickets: number;
+  ticketsSold: number;
   ticketPrice: number;
   imageUrl?: string;
   createdAt: Date;
@@ -56,6 +57,11 @@ const EventSchema: Schema = new Schema(
       type: Number,
       required: [true, "Total tickets is required"],
       min: [1, "Must have at least 1 ticket"],
+    },
+     ticketsSold: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
     ticketPrice: {
       type: Number,

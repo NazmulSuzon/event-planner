@@ -12,6 +12,7 @@ export async function POST(req: Request) {
     if (!authHeader) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    
 
     const token = authHeader.split(" ")[1];
 
