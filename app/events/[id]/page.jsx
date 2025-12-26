@@ -21,6 +21,8 @@ export default async function EventDetailsPage({ params }) {
     notFound();
   }
 
+  const availableTickets = event.totalTickets - (event.ticketsSold || 0);
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <div className="w-full h-[400px] overflow-hidden rounded-lg">
@@ -48,7 +50,7 @@ export default async function EventDetailsPage({ params }) {
         <div className="border rounded-lg p-6 h-fit sticky top-20">
           <p className="text-2xl font-bold mb-2">€{event.ticketPrice}</p>
           <p className="text-sm text-gray-600 mb-4">
-            {event.totalTickets} tickets left
+            {availableTickets} tickets left
           </p>
 
           {/* CLIENT COMPONENT INSIDE SERVER COMPONENT */}
@@ -56,6 +58,7 @@ export default async function EventDetailsPage({ params }) {
             eventId={event._id.toString()}
             title={event.title}
             price={event.ticketPrice}
+            availableTickets={availableTickets}
           />
         </div>
       </div>
