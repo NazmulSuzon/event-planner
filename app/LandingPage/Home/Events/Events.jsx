@@ -55,6 +55,7 @@ const Events = () => {
               totalTickets={event.totalTickets}
               ticketPrice={event.ticketPrice}
               imageUrl={event.imageUrl}
+              ticketsSold={event.ticketsSold}
             />
           ))
         )}
